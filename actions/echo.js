@@ -9,8 +9,8 @@ var action = {
     // This method will be run at server start up.
   },
 
-  execute: function(data) {
-    return data.text.replace(this.trigger, '')  
+  execute: function(data, callback) {
+    callback(data.text.replace(this.trigger, ''))
   }
 }
 

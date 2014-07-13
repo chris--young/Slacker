@@ -69,8 +69,8 @@
       // This method will be run at server start up.
     },
 
-    execute: function(data) {
-      return data.text.replace(this.trigger, '')
+    execute: function(data, callback) {
+      callback(data.text.replace(this.trigger, ''))
     }
   }
 
@@ -91,7 +91,7 @@
 
 #### Execute
 
-  Slacker calls the `execute()` method when a request requires that your action be performed. It receives a single `data` parameter with relavent request information and must return a string which will be the bot's response in Slack. This method is required on all actions.
+  Slacker calls the `execute()` method when a request requires that your action be performed. It receives a `data` parameter with relavent request information, and a `callback` paramature that must return a string which will be the bot's response in Slack. This method is required on all actions.
 
 ##### The `data` Object
 

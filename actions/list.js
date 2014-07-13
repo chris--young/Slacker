@@ -5,11 +5,12 @@ var action = {
 
   description: 'List all availble Slacker actions.',
 
-  execute: function(data) {
+  execute: function(data, callback) {
     var output = '*Available Actions*\n'
     for (var x = 0; x < bot.actions.length; x++)
       output += '`' + bot.actions[x].trigger + '` ' + bot.actions[x].description + '\n'
-    return output
+
+    callback(output)
   }
 }
 

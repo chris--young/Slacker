@@ -18,8 +18,8 @@ var action = {
     })
   },
 
-  execute: function(data) {
-    return this.helpText
+  execute: function(data, callback) {
+    callback(this.helpText)
   }
 }
 

@@ -41,8 +41,11 @@ exports.processRequest = function(request, response) {
   }
 
   var responseText
-  for (var x = 0; x < exports.actions.length; x++)
+  var actionFound
+  var x = -1
+  while (!actionFound && x++ < exports.actions.length - 1)
     if (~requestText.indexOf(exports.actions[x].trigger)) {
+      actionFound = true
       setTimeout(function() {
         if (!responseText) {
           log.error('bot action timed out', exports.actions[x].trigger, request.id)
@@ -51,29 +54,39 @@ exports.processRequest = function(request, response) {
         }
       }, config.timeout)
 
-      responseText = exports.actions[x].execute(outgoingData)
+      exports.actions[x].execute(outgoingData, function(responseText) {
+        if (!responseText) {
+          response.statusCode = 500
+          response.end()
+          log.error('action did not return a response', exports.actions[x].trigger, request.id)
+          return
+        }
 
-      switch (responseText) {
-        case exports.actions[x].usage:
-          responseText = '*Invalid usage of* `' + exports.actions[x].trigger + '`\n*Usage:* ' + responseText
-          log.error('bot responding with invalid usage', exports.actions[x].trigger, request.id)
-          break;
+        switch (responseText) {
+          case exports.actions[x].usage:
+            responseText = '*Invalid usage of* `' + exports.actions[x].trigger + '`\n*Usage:* ' + responseText
+            log.error('bot responding with invalid usage', exports.actions[x].trigger, request.id)
+            break;
 
-        default:
-          responseText.replace('&', '&amp;')
-          responseText.replace('<', '&lt;')
-          responseText.replace('>', '&gt;')
-          log.info('bot responding with action', exports.actions[x].trigger, request.id)
-      }
+          default:
+            responseText.replace('&', '&amp;')
+            responseText.replace('<', '&lt;')
+            responseText.replace('>', '&gt;')
+            log.info('bot responding with action', exports.actions[x].trigger, request.id)
+        }
+
+        response.statusCode = 200
+        response.end(JSON.stringify({text: responseText}))
+        log.info('bot successfully responded', {}, request.id)
+      })
     }
-  if (!responseText) {
+
+  if (!actionFound) {
     log.error('no bot action found', requestText, request.id)
     responseText = 'No action found, try `help`.'
+    response.statusCode = 200
+    response.end(JSON.stringify({text: responseText}))
   }
-
-  response.statusCode = 200
-  response.end(JSON.stringify({text: responseText}))
-  log.info('bot successfully responded', {}, request.id)
 }
 
 exports.addAction = function(action) {

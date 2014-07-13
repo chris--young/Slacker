@@ -7,13 +7,13 @@ var action = {
 
   usage: 'tell user message',
 
-  execute: function(data) {
+  execute: function(data, callback) {
     var components = data.text.split(' ')
     if (data.text.substring(0, 4) !== 'tell' || components.length < 3)
-      return this.usage
+      callback(this.usage)
 
     var commandLength = components[1].length + 5
-    return '<@' + components[1] + '> ' + data.text.substring(commandLength, data.text.length)
+    callback('<@' + components[1] + '> ' + data.text.substring(commandLength, data.text.length))
   }
 }
 

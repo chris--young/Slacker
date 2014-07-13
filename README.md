@@ -17,9 +17,9 @@
 
   1. Clone this repository.
 
-````
-➜ ~ git clone git@github.com:chris--young/Slacker.git
-````
+    ````
+    ➜ ~ git clone git@github.com:chris--young/Slacker.git
+    ````
 
   2. Install [Node.js](http://node.js).
 
@@ -37,9 +37,9 @@
 
   4. Start Slacker.
 
-````
-➜ ~ sh Slacker 
-````
+    ````
+    ➜ ~ sh Slacker 
+    ````
 
 ## Actions
 

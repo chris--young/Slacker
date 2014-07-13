@@ -53,7 +53,7 @@
 
   3. Define your action as an object.
 
-  4. Call `bot.addAction()` to complete the process. Slacker will search the `bot_actions` directory and add valid actions on start up.
+  4. Call `bot.addAction()` to complete the process. Slacker will search the `bot_actions` directory and add valid actions when worker processes come online.
 
 ### A Sample Action
 

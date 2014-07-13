@@ -6,5 +6,6 @@
   "path": "Set your Slack incoming-webhook URL path here",
   "keys": [
     "Create a unique access key and make sure to set it as a URL parameter in your Slack outgoing-webhook URL"
-  ]
+  ],
+  "timeout": 8000
 }

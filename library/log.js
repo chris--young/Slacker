@@ -40,6 +40,8 @@ exports.setup = function(callback) {
 
         callback()
       })
+    else
+      callback()
   })
 }
 

@@ -43,7 +43,7 @@
 
 ## Actions
 
-  Actions are script files located in the `bot_actions` directory. When Slacker receives a request from Slack it will check for and execute the appropriate action. Actions receives a `data` object with relevant information about the request from Slack, process the data and then return a response string. Slacker facilitates the response process.
+  Actions are script files located in the `bot_actions` directory. When Slacker receives a request from Slack it will check for and execute the appropriate action. Actions receive a `data` object with relevant information about the request from Slack, process the data and then return a response string. Slacker facilitates the response process.
 
 ### Creating an Action
 

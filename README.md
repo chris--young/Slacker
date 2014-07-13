@@ -77,7 +77,7 @@
   bot.addAction(action)
   ````
 
-#### Triggers
+#### Trigger
 
   Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action. This attribute is required on all actions.
 

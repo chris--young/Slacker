@@ -56,7 +56,7 @@ exports.processRequest = function(request, response) {
     }
   if (!responseText) {
     log.error('no bot action found', requestText, request.id)
-    responseText = 'no action found "' + requestText + '"'
+    responseText = 'No action found, try `help`.'
   }
 
   response.statusCode = 200

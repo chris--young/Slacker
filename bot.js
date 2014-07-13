@@ -6,16 +6,18 @@ var config = require(__dirname + '/config.json')
 var log = require(__dirname + '/library/log.js')
 var parse = require(__dirname + '/library/parse.js')
 
-var actions = []
+exports.actions = []
 
 exports.setup = function(callback) {
-  fs.readdir(__dirname + '/bot_actions', function(error, files) {
+  fs.readdir(__dirname + '/actions', function(error, files) {
     if (error)
       return callback(error)
   
     for (var x = 0; x < files.length; x++) {
-      require(__dirname + '/bot_actions/' + files[x])
-      actions[actions.length - 1].setup()
+      require(__dirname + '/actions/' + files[x])
+      var setup = exports.actions[exports.actions.length - 1].setup
+      if (setup)
+        setup()
     }
 
     log.info('bot setup complete')
@@ -39,18 +41,18 @@ exports.processRequest = function(request, response) {
   }
 
   var responseText
-  for (var x = 0; x < actions.length; x++)
-    if (~requestText.indexOf(actions[x].trigger)) {
+  for (var x = 0; x < exports.actions.length; x++)
+    if (~requestText.indexOf(exports.actions[x].trigger)) {
       setTimeout(function() {
         if (!responseText) {
-          log.error('bot action timed out', actions[x].trigger, request.id)
+          log.error('bot action timed out', exports.actions[x].trigger, request.id)
           response.statusCode = 500
           response.end()
         }
       }, config.timeout)
 
-      responseText = actions[x].execute(outgoingData)
-      log.info('bot responding with action', actions[x].trigger, request.id)
+      responseText = exports.actions[x].execute(outgoingData)
+      log.info('bot responding with action', exports.actions[x].trigger, request.id)
     }
   if (!responseText) {
     log.error('no bot action found', requestText, request.id)
@@ -63,19 +65,19 @@ exports.processRequest = function(request, response) {
 }
 
 exports.addAction = function(action) {
-  if (!action.trigger || !action.execute) {
+  if (!action.trigger || !action.description || !action.execute) {
     log.error('invalid bot action', action)
     return
   }
 
   var collision
-  for (var x = 0; x < actions.length; x++)
-    if (actions[x].trigger === action.trigger)
+  for (var x = 0; x < exports.actions.length; x++)
+    if (exports.actions[x].trigger === action.trigger)
       collision = true
   if (collision) {
     log.error('bot action trigger collision', action.trigger)
     return
   }
 
-  actions.push(action)
+  exports.actions.push(action)
 }

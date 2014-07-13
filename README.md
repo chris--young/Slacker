@@ -47,13 +47,13 @@
 
 ### Creating an Action
 
-  1. Create a new JavaScript file in the `bot_actions` directory.
+  1. Create a new JavaScript file in the `actions/` directory.
 
   2. Require the `bot` module.
 
   3. Define your action as an object.
 
-  4. Call `bot.addAction()` to complete the process. Slacker will search the `bot_actions` directory and add valid actions when worker processes come online.
+  4. Call `bot.addAction()` to complete the process. Slacker will search the `actions/` directory and add valid actions when worker processes come online.
 
 ### A Sample Action
 
@@ -62,6 +62,8 @@
 
   var action = {
     trigger: 'echo',
+
+    description: 'Echo a string to Slack.',
 
     setup: function() {
       // This method will be run at server start up.
@@ -77,15 +79,19 @@
 
 #### Triggers
 
-  Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action.
+  Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action. This attribute is required on all actions.
+
+#### Description
+
+  The `description` attribute is a string used to describe your action when a user triggers the __list__ action. This attribute is required on all actions.
 
 #### Setup
 
-  The `setup()` method will be run when Slacker worker processes come online. You can use this method for any pre-execution logic you may need to perform.
+  The `setup()` method will be run when Slacker worker processes come online. You can use this method for any pre-execution logic you may need to perform. This method is optional.
 
 #### Execute
 
-  Slacker calls the `execute()` method when a request requires that your action be performed. It receives a single `data` parameter with relavent request information and must return a string which will be the bot's response in Slack.
+  Slacker calls the `execute()` method when a request requires that your action be performed. It receives a single `data` parameter with relavent request information and must return a string which will be the bot's response in Slack. This method is required on all actions.
 
 ##### The `data` Object
 

@@ -30,7 +30,7 @@ module.exports = function() {
         try {
           var kill = setTimeout(function() {
             process.exit(1)
-          }, 30000);
+          }, 30000)
           kill.unref()
           server.close()
           cluster.worker.disconnect()

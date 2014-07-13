@@ -77,11 +77,11 @@
 
 #### Triggers
 
-  Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by other actions.
+  Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action.
 
 #### Setup
 
-  The `setup()` method will be run when Slacker starts up for the first time. You can use this method for any pre-execution logic you may need to perform.
+  The `setup()` method will be run when Slacker worker processes come online. You can use this method for any pre-execution logic you may need to perform.
 
 #### Execute
 

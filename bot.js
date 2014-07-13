@@ -14,7 +14,7 @@ exports.setup = function(callback) {
       return callback(error)
   
     for (var x = 0; x < files.length; x++) {
-      var action = require(__dirname + '/bot_actions/' + files[x])
+      require(__dirname + '/bot_actions/' + files[x])
       actions[actions.length - 1].setup()
     }
 

@@ -49,8 +49,8 @@ exports.processRequest = function(request, response) {
         }
       }, config.timeout)
 
-      log.info('bot responding with action', actions[x].trigger, request.id)
       responseText = actions[x].execute(outgoingData)
+      log.info('bot responding with action', actions[x].trigger, request.id)
     }
   if (!responseText) {
     log.error('no bot action found', requestText, request.id)

@@ -52,10 +52,19 @@ exports.processRequest = function(request, response) {
       }, config.timeout)
 
       responseText = exports.actions[x].execute(outgoingData)
-      responseText.replace('&', '&amp;')
-      responseText.replace('<', '&lt;')
-      responseText.replace('>', '&gt;')
-      log.info('bot responding with action', exports.actions[x].trigger, request.id)
+
+      switch (responseText) {
+        case exports.actions[x].usage:
+          responseText = '*Invalid usage of* `' + exports.actions[x].trigger + '`\n*Usage:* ' + responseText
+          log.error('bot responding with invalid usage', exports.actions[x].trigger, request.id)
+          break;
+
+        default:
+          responseText.replace('&', '&amp;')
+          responseText.replace('<', '&lt;')
+          responseText.replace('>', '&gt;')
+          log.info('bot responding with action', exports.actions[x].trigger, request.id)
+      }
     }
   if (!responseText) {
     log.error('no bot action found', requestText, request.id)

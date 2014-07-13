@@ -41,6 +41,14 @@ exports.processRequest = function(request, response) {
   var responseText
   for (var x = 0; x < actions.length; x++)
     if (~requestText.indexOf(actions[x].trigger)) {
+      setTimeout(function() {
+        if (!responseText) {
+          log.error('bot action timed out', actions[x].trigger, request.id)
+          response.statusCode = 500
+          response.end()
+        }
+      }, config.timeout)
+
       log.info('bot responding with action', actions[x].trigger, request.id)
       responseText = actions[x].execute(outgoingData)
     }

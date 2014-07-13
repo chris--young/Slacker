@@ -25,15 +25,15 @@
 
   3. Set Slack Integrations.
 
-  * Create a Outgoing WebHook in Slack and point it to your instance of Slacker.
+    * Create a Outgoing WebHook in Slack and point it to your instance of Slacker.
 
-    * Slacker expects to receive requests directly to the server's root URL.
+      * Slacker expects to receive requests directly to the server's root URL.
 
-    * Be sure to include a valid `key` URL parameter on your outgoing-webhook URL when you set it in Slack.
+      * Be sure to include a valid `key` URL parameter on your outgoing-webhook URL when you set it in Slack.
 
-  * Create an Incoming WebHook in Slack. 
+    * Create an Incoming WebHook in Slack. 
 
-    * Be sure to update `hostname` and `path` in `config.json` in match your incoming-webhook.
+      * Be sure to update `hostname` and `path` in `config.json` in match your incoming-webhook.
 
   4. Start Slacker.
 

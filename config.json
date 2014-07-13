@@ -1,0 +1,10 @@
+{
+  "port": 8421,
+  "logs": "logs",
+  "token": "Set your Slack integration token here",
+  "hostname": "Set your Slack incoming-webhook URL hostname here",
+  "path": "Set your Slack incoming-webhook URL path here",
+  "keys": [
+    "Create a unique access key and make sure to set it as a URL parameter in your Slack outgoing-webhook URL"
+  ]
+}

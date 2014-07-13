@@ -1,2 +1,9 @@
 #!/bin/sh
+
+NOW=$(date +%s)
+tar -cvzf "logs/logs_$NOW.tar.gz" logs/*.log
+rm -rf logs/*.log
+
+clear
+
 node master.js

@@ -112,7 +112,7 @@
   ➜ ~ npm install -g mocha
   ````
 
-  Then run the test.
+  Then run the tests.
 
   ````
   ➜ ~ npm test

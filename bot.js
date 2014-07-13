@@ -52,6 +52,9 @@ exports.processRequest = function(request, response) {
       }, config.timeout)
 
       responseText = exports.actions[x].execute(outgoingData)
+      responseText.replace('&', '&amp;')
+      responseText.replace('<', '&lt;')
+      responseText.replace('>', '&gt;')
       log.info('bot responding with action', exports.actions[x].trigger, request.id)
     }
   if (!responseText) {

@@ -89,8 +89,6 @@
 
 ##### The `data` Object
 
-  The `data` object is defined below...
-
   ````
   var data = {
     team_id: 'T028JNZFM',

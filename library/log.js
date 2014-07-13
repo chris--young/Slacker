@@ -31,6 +31,18 @@ function writeToFile(fileName, dataString) {
   })
 }
 
+exports.setup = function(callback) {
+  fs.exists(config.logs, function(exists) {
+    if (!exists)
+      fs.mkdir(config.logs, function(exception) {
+        if (exception)
+          return callback(exception)
+
+        callback()
+      })
+  })
+}
+
 exports.info = function(message, data, id) {
   writeToFile('info.log', format('info', message, data, id))
 }

@@ -1,3 +1,3 @@
 *Help*
 
-Try `list` to see available actions, or try `list action` for help with a specific action.
+Try `list` to see available actions, or try `help action` for help with a specific action.

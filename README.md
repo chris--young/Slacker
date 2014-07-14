@@ -61,7 +61,9 @@
   var bot = require(__dirname + '/../bot.js')
 
   var action = {
-    trigger: 'echo',
+    name: 'echo',
+
+    trigger: /^echo \".*\"$/,
 
     description: 'Echo a string to Slack.',
 
@@ -70,16 +72,20 @@
     },
 
     execute: function(data, callback) {
-      callback(data.text.replace(this.trigger, ''))
+      callback(data.text.split('\"')[1])
     }
   }
 
   bot.addAction(action)
   ````
 
+#### Name
+
+  The `name` attribute defines your action. It is used by the __help__ and __list__ actions inform users about your action. `name` attributes must be unique; Slacker will ignore actions if their `name' has already been defined by another actions. This attribute is required on all actions.
+
 #### Trigger
 
-  Your action's `trigger` attribute defines when it will be exectued. If a Slack user activates your bot with the `trigger` keyword in his message text Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action. This attribute is required on all actions.
+  Your action's `trigger` attribute is a regular expression which defines when it will be exectued. If a Slack user activates your bot and his message text matches your action's `trigger` then Slacker will perform your action. `trigger` attributes should be unique; Slacker will ignore actions if their `trigger` attributes have already been defined by another action. This attribute is required on all actions.
 
 #### Description
 

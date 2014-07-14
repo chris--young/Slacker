@@ -3,7 +3,9 @@ var bot = require(__dirname + '/../bot.js')
 var https = require('https')
 
 var action = {
-  trigger: 'btc',
+  name: 'btc',
+
+  trigger: /^btc$/,
 
   description: 'Display the current asking price of BTC from Bitstamp.',
 

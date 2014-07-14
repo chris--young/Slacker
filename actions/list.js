@@ -1,14 +1,16 @@
 var bot = require(__dirname + '/../bot.js')
 
 var action = {
-  trigger: 'list',
+  name: 'list',
 
-  description: 'List all availble Slacker actions.',
+  trigger: /^list$/,
+
+  description: 'List all availble actions.',
 
   execute: function(data, callback) {
     var output = '*Available Actions*\n'
     for (var x = 0; x < bot.actions.length; x++)
-      output += '`' + bot.actions[x].trigger + '` ' + bot.actions[x].description + '\n'
+      output += '`' + bot.actions[x].name + '` ' + bot.actions[x].description + '\n'
 
     callback(output)
   }

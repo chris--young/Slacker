@@ -44,7 +44,7 @@ exports.processRequest = function(request, response) {
   var actionFound
   var x = -1
   while (!actionFound && x++ < exports.actions.length - 1)
-    if (~requestText.indexOf(exports.actions[x].trigger)) {
+    if (exports.actions[x].trigger.test(requestText)) {
       actionFound = true
       setTimeout(function() {
         if (!responseText) {
@@ -62,18 +62,13 @@ exports.processRequest = function(request, response) {
           return
         }
 
-        switch (responseText) {
-          case exports.actions[x].usage:
-            responseText = '*Invalid usage of* `' + exports.actions[x].trigger + '`\n*Usage:* ' + responseText
-            log.error('bot responding with invalid usage', exports.actions[x].trigger, request.id)
-            break;
-
-          default:
-            responseText.replace('&', '&amp;')
-            responseText.replace('<', '&lt;')
-            responseText.replace('>', '&gt;')
-            log.info('bot responding with action', exports.actions[x].trigger, request.id)
-        }
+        log.info('bot responding with action', exports.actions[x].trigger, request.id)
+        if (typeof responseText === 'string') {
+          responseText.replace('&', '&amp;')
+          responseText.replace('<', '&lt;')
+          responseText.replace('>', '&gt;')
+        } else
+          responseText = responseText.toString()
 
         response.statusCode = 200
         response.end(JSON.stringify({text: responseText}))
@@ -83,7 +78,7 @@ exports.processRequest = function(request, response) {
 
   if (!actionFound) {
     log.error('no bot action found', requestText, request.id)
-    responseText = 'No action found, try `help`.'
+    responseText = 'Invalid action, try `help`.'
     response.statusCode = 200
     response.end(JSON.stringify({text: responseText}))
   }

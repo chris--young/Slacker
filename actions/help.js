@@ -3,7 +3,9 @@ var bot = require(__dirname + '/../bot.js')
 var fs = require('fs')
 
 var action = {
-  trigger: 'help',
+  name: 'help',
+
+  trigger: /^help.*/,
 
   description: 'Display information on how to user Slacker.',
 
@@ -19,7 +21,16 @@ var action = {
   },
 
   execute: function(data, callback) {
-    callback(this.helpText)
+    var components = data.text.split(' ')
+
+    if (components.length === 1)
+      callback(this.helpText)
+    
+    for (var x = 0; x < bot.actions.length; x++)
+      if (bot.actions[x].name === components[1])
+        callback(bot.actions[x].trigger)
+
+    callback('Action "' + components[1] + '" not found.')
   }
 }
 

@@ -1,7 +1,9 @@
 var bot = require(__dirname + '/../bot.js')
 
 var action = {
-  trigger: 'echo',
+  name: 'echo',
+
+  trigger: /^echo \".*\"$/,
 
   description: 'Echo a string to Slack.',
 
@@ -10,7 +12,7 @@ var action = {
   },
 
   execute: function(data, callback) {
-    callback(data.text.replace(this.trigger, ''))
+    callback(data.text.split('\"')[1])
   }
 }
 

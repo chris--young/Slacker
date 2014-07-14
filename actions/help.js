@@ -25,7 +25,7 @@ var action = {
 
     if (components.length === 1)
       callback(this.helpText)
-    
+
     for (var x = 0; x < bot.actions.length; x++)
       if (bot.actions[x].name === components[1])
         callback(bot.actions[x].trigger)

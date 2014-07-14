@@ -81,7 +81,7 @@
 
 #### Name
 
-  The `name` attribute defines your action. It is used by the __help__ and __list__ actions inform users about your action. `name` attributes must be unique; Slacker will ignore actions if their `name' has already been defined by another actions. This attribute is required on all actions.
+  The `name` attribute defines your action. It is used by the __help__ and __list__ actions to inform users about your action. `name` attributes must be unique; Slacker will ignore actions if their `name` has already been defined by another action. This attribute is required on all actions.
 
 #### Trigger
 

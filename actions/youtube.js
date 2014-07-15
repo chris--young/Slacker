@@ -12,13 +12,10 @@ var action = {
     api_key: "AIzaSyAHD4juIcaWTRC-sDhspzbPYh-GQ5BXkbs",
 
     execute: function(data, callback) {
-        var query_param = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1);
 
-        query_param = query_param.replace(/ /g,"+");
+        var query_param = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1).replace(/ /g,"+");
 
         console.log(data.text);
-
-        // var url = "https://www.googleapis.com/youtube/v3/search?part=" + query_param + "&key=" + api_key;
 
         var options = {
             hostname: "www.googleapis.com",
@@ -26,8 +23,6 @@ var action = {
             port: 443,
             method: "GET"
         };
-
-        console.log(options.hostname + options.path);
 
         var request = https.request(options, function(response) {
             var responseText = "";

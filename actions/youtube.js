@@ -14,28 +14,39 @@ var action = {
     execute: function(data, callback) {
         var query_param = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1);
 
+        query_param = query_param.replace(/ /g,"+");
+
+        console.log(data.text);
+
         // var url = "https://www.googleapis.com/youtube/v3/search?part=" + query_param + "&key=" + api_key;
 
         var options = {
             hostname: "www.googleapis.com",
-            path : "/youtube/v3/search?part=" + query_param + "&key=" + this.api_key,
+            path : "/youtube/v3/search?part=snippet&q=" + query_param + "&key=" + this.api_key,
+            port: 443,
             method: "GET"
         };
+
+        console.log(options.hostname + options.path);
 
         var request = https.request(options, function(response) {
             var responseText = "";
             response.on("data", function(data) {
-                console.log("data: " + data);
                 responseText += data.toString();
             });
             response.on("end", function() {
-                console.log(responseText);
-                callback(null);
-                // callback("Data: " + JSON.stringify(responseText));
+                var videoArray = JSON.parse(responseText).items;
+                var random_int = Math.floor(Math.random() * videoArray.length);
+                var videoID = videoArray[random_int].id.videoId;
+                var videoURL = "http://www.youtube.com/watch?v=" + videoID;
+                callback(videoURL);
             });
-            response.on("error", function(error) {
-                throw error;
-            });
+        });
+
+        request.end();
+
+        request.on("error", function(error) {
+            throw error;
         });
     }
 };

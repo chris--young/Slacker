@@ -13,6 +13,12 @@
     "name": "Chris Young",
     "email": "cyoung@mobiquityinc.com"
   },
+  "contributors": [
+    {
+      "name": "Jason Kleinberg",
+      "email": "jkleinberg@mobiquityinc.com"
+    }
+  ],
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {

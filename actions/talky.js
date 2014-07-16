@@ -16,7 +16,9 @@ var action = {
       text: 'Join the conference: <http://talky.io/' + id + '>.'
     };
 
-    data = data || id();
+    var room = encodeURI(data.text.replace(this.trigger, '$1'));
+
+    data = room || id();
 
     callback(payload.text);
   }

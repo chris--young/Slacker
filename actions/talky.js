@@ -1,6 +1,6 @@
 var bot = require(__dirname + '/../bot.js');
 
-var id = require('../library/id.js')();
+var id = require('../library/id.js');
 
 var action = {
   name: 'talky',
@@ -16,8 +16,8 @@ var action = {
       text: 'Join the conference: <http://talky.io/' + id + '>.'
     };
 
-    data = data || id;
-    
+    data = data || id();
+
     callback(payload.text);
   }
 };

@@ -17,6 +17,10 @@
     {
       "name": "Jason Kleinberg",
       "email": "jkleinberg@mobiquityinc.com"
+    },
+    {
+        "name": "Firoze Rakib",
+        "email": "frakib@mobiquityinc.com"
     }
   ],
   "license": "ISC",

@@ -29,10 +29,15 @@ var action = {
             });
             response.on("end", function() {
                 var videoArray = JSON.parse(responseText).items;
-                var random_int = Math.floor(Math.random() * videoArray.length);
-                var videoID = videoArray[random_int].id.videoId;
-                var videoURL = "http://www.youtube.com/watch?v=" + videoID;
-                callback(videoURL);
+                if (videoArray.length > 0) {
+                    var random_int = Math.floor(Math.random() * videoArray.length);
+                    var videoID = videoArray[random_int].id.videoId;
+                    var videoURL = "http://www.youtube.com/watch?v=" + videoID;
+                    callback(videoURL);
+                }
+                else {
+                    callback("No Videos Today :disappointed:");
+                }
             });
         });
 

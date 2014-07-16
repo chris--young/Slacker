@@ -9,10 +9,16 @@
   "scripts": {
     "test": "mocha tests"
   },
-  "author": {
-    "name": "Chris Young",
-    "email": "cyoung@mobiquityinc.com"
-  },
+  "author": [
+    {
+        "name": "Chris Young",
+        "email": "cyoung@mobiquityinc.com"
+    },
+    {
+        "name": "Firoze Rakib",
+        "email": "frakib@mobiquityinc.com"
+    },
+  ],
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {

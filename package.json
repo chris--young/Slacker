@@ -9,15 +9,19 @@
   "scripts": {
     "test": "mocha tests"
   },
-  "author": [
+  "author": {
+    "name": "Chris Young",
+    "email": "cyoung@mobiquityinc.com"
+  },
+  "contributors": [
     {
-        "name": "Chris Young",
-        "email": "cyoung@mobiquityinc.com"
+      "name": "Jason Kleinberg",
+      "email": "jkleinberg@mobiquityinc.com"
     },
     {
-        "name": "Firoze Rakib",
-        "email": "frakib@mobiquityinc.com"
-    },
+      "name": "Firoze Rakib",
+      "email": "frakib@mobiquityinc.com"
+    }
   ],
   "license": "ISC",
   "dependencies": {},

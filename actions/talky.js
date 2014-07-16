@@ -18,6 +18,7 @@ var action = {
       text: 'Join the conference: <http://talky.io/' + room + '>.'
     };
 
+    // Once bot supports formatted responses, replace the following with `callback(payload);`
     callback(payload.text);
   }
 };

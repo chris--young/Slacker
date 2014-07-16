@@ -5,12 +5,13 @@ var id = require('../library/id.js');
 var action = {
   name: 'talky',
 
-  trigger: /^talky\s*(.*)$/,
+  trigger: /^talky\s*(['"]?)(.*?)(\1)$/,
 
   description: 'Create a talky room for video conferencing and video chatting.',
 
   execute: function(data, callback) {
-    var room = encodeURI(data.text.replace(this.trigger, '$1')) || id();
+    var match = data.text.match(this.trigger);
+    var room = (match && match[1]) ? encodeURI(data.text.replace(this.trigger, '$2')) : id();
     var payload = {
       username: 'Talky',
       icon_emoji: ':app-talky:',

@@ -15,8 +15,6 @@ var action = {
 
         var query_param = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1).replace(/ /g,"+");
 
-        console.log(data.text);
-
         var options = {
             hostname: "www.googleapis.com",
             path : "/youtube/v3/search?part=snippet&q=" + query_param + "&key=" + this.api_key,
@@ -38,11 +36,12 @@ var action = {
             });
         });
 
-        request.end();
-
         request.on("error", function(error) {
+            callback("Something wasn't right. :disappointed:");
             throw error;
         });
+
+        request.end();
     }
 };
 

@@ -40,36 +40,20 @@ exports.processRequest = function(request, response) {
     text: requestText
   }
 
-  var responseText
   var actionFound
   var x = -1
   while (!actionFound && x++ < exports.actions.length - 1)
     if (exports.actions[x].trigger.test(requestText)) {
       actionFound = true
-      setTimeout(function() {
-        if (!responseText) {
-          log.error('bot action timed out', exports.actions[x].trigger, request.id)
-          response.statusCode = 500
-          response.end()
-        }
-      }, config.timeout)
 
-      exports.actions[x].execute(outgoingData, function(responseText) {
+      exports.executeAction(outgoingData, exports.actions[x], function(responseText) {
         if (!responseText) {
-          response.statusCode = 500
-          response.end()
-          log.error('action did not return a response', exports.actions[x].trigger, request.id)
-          return
+          log.error('action did not return a response', exports.actions[x].name, request.id) 
+          respons.estatusCode = 200
+          response.end(JSON.stringify({text: 'Action did not return a response.'}))
         }
 
-        log.info('bot responding with action', exports.actions[x].trigger, request.id)
-        if (typeof responseText === 'string') {
-          responseText.replace('&', '&amp;')
-          responseText.replace('<', '&lt;')
-          responseText.replace('>', '&gt;')
-        } else
-          responseText = responseText.toString()
-
+        log.info('responding with action', exports.actions[x].name, request.id)
         response.statusCode = 200
         response.end(JSON.stringify({text: responseText}))
         log.info('bot successfully responded', {}, request.id)
@@ -78,9 +62,8 @@ exports.processRequest = function(request, response) {
 
   if (!actionFound) {
     log.error('no bot action found', requestText, request.id)
-    responseText = 'Invalid action, try `help`.'
     response.statusCode = 200
-    response.end(JSON.stringify({text: responseText}))
+    response.end(JSON.stringify({text: 'Invalid action, try `help`.'}))
   }
 }
 
@@ -100,4 +83,28 @@ exports.addAction = function(action) {
   }
 
   exports.actions.push(action)
+}
+
+exports.executeAction = function(data, action, callback) {
+  var response
+
+  setTimeout(function() {
+    if (!response)
+      callback()
+  }, config.timeout)
+
+  action.execute(data, function(responseText) {
+    if (!responseText)
+      callback()
+
+    if (typeof responseText === 'string') {
+      responseText.replace('&', '&amp;')
+      responseText.replace('<', '&lt;')
+      responseText.replace('>', '&gt;')
+    } else
+      responseText = responseText.toString()
+
+    reponse = responseText
+    callback(reponse)
+  })
 }

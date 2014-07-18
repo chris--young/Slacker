@@ -49,7 +49,7 @@ exports.processRequest = function(request, response) {
       exports.executeAction(outgoingData, exports.actions[x], function(responseText) {
         if (!responseText) {
           log.error('action did not return a response', exports.actions[x].name, request.id) 
-          respons.estatusCode = 200
+          response.estatusCode = 200
           response.end(JSON.stringify({text: 'Action did not return a response.'}))
         }
 

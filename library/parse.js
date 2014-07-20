@@ -84,7 +84,7 @@ function commands (tokens, input) {
         if (!quotes) {
           quotes = 'single';
         } else if (quotes === 'single') {
-          baoundary = true;
+          boundary = true;
           quotes = '';
         } 
         break;

@@ -27,6 +27,8 @@ exports.setup = function(callback) {
 
 exports.processRequest = function(request, response) {
   var commands = parse.commands(request.body.text);
+//  console.log(JSON.stringify(commands));
+
   var requestText;
   if (request.body.trigger_word)
     requestText = parse.slackText(request.body.text.substring(request.body.trigger_word.length + 1, request.body.text.length))
@@ -35,6 +37,8 @@ exports.processRequest = function(request, response) {
 
   }
   log.info('bot processing request', request.body, request.id)
+
+//  console.log(requestText);
 
   var outgoingData = {
     team_id: request.body.team_id,

@@ -181,13 +181,14 @@ function normalize (commands) {
         break;
 
       case 'switch':
-        if (token.value.indexOf('--')) {
-          thisCommand.switches.push(token.value.replace(/^-*/, ''));
+        if (token.value.indexOf('--') === 0) {
+          thisCommand.switches.push(token.value.replace(/^-*/g, ''));
         } else {
-          _.each(token.value.replace(/^-/, '').split(), function (switchChar){
+          _.each(token.value.replace(/^-/, '').split(''), function (switchChar){
             thisCommand.switches.push(switchChar);
           });
         }
+        thisCommand.switches = _.uniq(thisCommand.switches);
         break;
 
       case 'operator':

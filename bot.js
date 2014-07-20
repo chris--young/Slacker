@@ -26,7 +26,14 @@ exports.setup = function(callback) {
 }
 
 exports.processRequest = function(request, response) {
-  var requestText = parse.slackText(request.body.text.substring(request.body.trigger_word.length + 1, request.body.text.length))
+  var commands = parse.commands(request.body.text);
+  var requestText;
+  if (request.body.trigger_word)
+    requestText = parse.slackText(request.body.text.substring(request.body.trigger_word.length + 1, request.body.text.length))
+  else {// command
+    requestText = decodeURIComponent(request.body.text.replace(/\+/g, '%20'))
+
+  }
   log.info('bot processing request', request.body, request.id)
 
   var outgoingData = {
@@ -71,7 +78,7 @@ exports.processRequest = function(request, response) {
           responseText = responseText.toString()
 
         response.statusCode = 200
-        response.end(JSON.stringify({text: responseText}))
+        response.end((request.body.trigger_word) ? JSON.stringify({text: responseText}) : responseText)
         log.info('bot successfully responded', {}, request.id)
       })
     }
@@ -80,7 +87,7 @@ exports.processRequest = function(request, response) {
     log.error('no bot action found', requestText, request.id)
     responseText = 'Invalid action, try `help`.'
     response.statusCode = 200
-    response.end(JSON.stringify({text: responseText}))
+    response.end((request.body.trigger_word) ? JSON.stringify({text: responseText}) : responseText)
   }
 }
 

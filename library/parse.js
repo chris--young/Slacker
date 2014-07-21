@@ -168,11 +168,16 @@ function normalize (commands) {
     var thisCommand = _.find(normalizedCommands, {id: token.id});
     switch (token.type) {
       case 'command':
-        token.arguments = [];
-        token.switches = [];
-        token.pipe = false;
-        token.redirectTo = [];
-        normalizedCommands.push(token);
+        var command = {
+          name: token.value,
+          id: token.id,
+          arguments: [],
+          switches: [],
+          pipe: false,
+          redirectTo: []
+        };
+        
+        normalizedCommands.push(command);
         thisCommand = _.find(normalizedCommands, {id: token.id});
         break;
 

@@ -87,8 +87,8 @@ module.exports = function() {
 
               if (request.body.token) {
                 if (
-                  (request.body.trigger_word && request.body.token === config.token ) ||
-                  (request.body.command && request.body.token === config.commandToken)
+                  (request.body.trigger_word && request.body.token === config.token.webhook ) ||
+                  (request.body.command      && request.body.token === config.token.api)
                 )
                   router(request, response)
                 else {

@@ -86,7 +86,10 @@ module.exports = function() {
               request.data = {}
 
               if (request.body.token) {
-                if (request.body.token === config.token)
+                if (
+                  (request.body.trigger_word && request.body.token === config.token.webhook ) ||
+                  (request.body.command      && request.body.token === config.token.api)
+                )
                   router(request, response)
                 else {
                   log.error('invalid token', request.body.token, request.id)

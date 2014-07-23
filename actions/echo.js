@@ -1,4 +1,4 @@
-var bot = require(__dirname + '/../bot.js')
+var bot = require(__dirname + '/../bot.js');
 
 var action = {
   name: 'echo',
@@ -12,8 +12,8 @@ var action = {
   },
 
   execute: function(data, callback) {
-    callback(data.text.split('\"')[1])
+  	callback( data.pipedResponse || data.command.arguments.join(' ') );
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

@@ -21,13 +21,14 @@ exports.actions = [];
 
 exports.setup = function (callback) {
   var setup;
+  var x;
   fs.readdir(__dirname + '/actions', function(error, files) {
     if (error) return callback(error);
   
-    for (var x = 0; x < files.length; x++) {
+    for (x = 0; x < files.length; x++) {
       require(__dirname + '/actions/' + files[x]);
       setup = _.last(exports.actions).setup;
-      if (setup) setup();
+      if (setup && _.isFunction(setup)) setup();
     }
 
     log.info('bot setup complete');
@@ -36,18 +37,38 @@ exports.setup = function (callback) {
 };
 
 exports.processRequest = function (request, response) {
-  var commands = parse.commands(request.body.text);
-  var responseMethod = (request.body.trigger_word) ? 'webhook' : 'api';
+  var actionFound, commands, input, outgoingData, pipedResponse, regex, requestText, responseMethod, responseText, VARIABLES;
+  
+  input = request.body.text;
 
-  var requestText;
+  // The keys on this object will
+  VARIABLES = {
+    'HERE': '#' + request.body.channel_name,
+    'ME': '@' + request.body.user_name,
+    'TODAY': new Date(Date.now()).toDateString(),
+    'NOW': new Date(Date.now()).toLocaleTimeString(),
+    'DOMAIN': request.body.team_domain
+  };
+
+  _.each(VARIABLES, function (value, key){
+    regex = new RegExp('%24' + key, 'gm');
+    input = input.replace(regex, value);
+    error.callsomething();
+  });
+
+  // Parse commands
+  commands = parse.commands(input);
+  responseMethod = (request.body.trigger_word) ? 'webhook' : 'api';
+
+  requestText;
   if (request.body.trigger_word)
-    requestText = parse.slackText(request.body.text.substring(request.body.trigger_word.length + 1, request.body.text.length));
+    requestText = parse.slackText(input.substring(request.body.trigger_word.length + 1, input.length));
   else {// command
-    requestText = decodeURIComponent(request.body.text.replace(/\+/g, '%20'));
+    requestText = decodeURIComponent(input.replace(/\+/g, '%20'));
   }
   log.info('bot processing request', request.body, request.id);
 
-  var outgoingData = {
+  outgoingData = {
     channel_id:   request.body.channel_id,
     channel_name: request.body.channel_name,
     team_domain:  request.body.team_domain,
@@ -58,10 +79,9 @@ exports.processRequest = function (request, response) {
     user_name:    request.body.user_name
   };
 
-  var responseText;
-  var actionFound;
-  var x = -1;
-  var pipedResponse = null;
+  responseText;
+  actionFound;
+  pipedResponse = null;
 
 
   _.each(commands, function (command) {
@@ -139,7 +159,6 @@ exports.processRequest = function (request, response) {
         });
         return true;
       }
-
 
       response.statusCode = 200;
       response.end(formatResponse(responseText));

@@ -1,22 +1,19 @@
-var bot = require(__dirname + '/../bot.js')
-
-var slack = require(__dirname + '/../library/slack.js')
+var bot   = require(__dirname + '/../bot.js');
+var slack = require(__dirname + '/../library/slack.js');
 
 var action = {
   name: 'tell',
 
-  trigger: /^tell [a-z_]* ".*"$/,
-
   description: 'Have Slacker message another user.',
 
   execute: function(data, callback) {
-    var components = data.text.split(' ')
-    var commandLength = components[1].length + 5
-    var who = components[1].replace('<', '').replace('@', '').replace('>', '')
-    var message = data.text.substring(commandLength + 2, data.text.length - 1)
+    var recipient = data.command.arguments[0];
+    var message   = data.command.arguments[1];
 
-    callback(slack.refer(who) + message)
+    bot.sendMessage(message, recipient, function (error, response){
+        callback(error, (error) ? 'Error sending "' + meessage +'" to ' + recipient + '.' : 'Message sent to ' + recipient);
+    });
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

@@ -22,17 +22,28 @@ exports.actions = [];
 exports.setup = function (callback) {
   var setup;
   var x;
-  fs.readdir(__dirname + '/actions', function(error, files) {
-    if (error) return callback(error);
+  fs.readdir(__dirname + '/actions', function (error, files) {
+    var errors = [];
+    if (error) return callback(error, files);
   
-    for (x = 0; x < files.length; x++) {
-      require(__dirname + '/actions/' + files[x]);
-      setup = _.last(exports.actions).setup;
-      if (setup && _.isFunction(setup)) setup();
-    }
+    _.each(files, function (file) {
+      var action = require(__dirname + '/actions/' + file);
+      if (!action) return true;
+      // exports.actions.push(action);
+      setup = action.setup;
+      if (setup && _.isFunction(setup)) setup(function (error, data) {
+        console.log('Running setup of ' + file);
+        if (error) {
+          errors.push(error);
+          log.error(new Error('error running setup function on ' + data.name));
+        } else {
+          log.info('Success running setup function of action' + data.name);
+        }
+      });
+    });
 
     log.info('bot setup complete');
-    callback();
+    callback((errors.length > 0) ? errors : null, exports.actions);
   });
 };
 
@@ -53,7 +64,6 @@ exports.processRequest = function (request, response) {
   _.each(VARIABLES, function (value, key){
     regex = new RegExp('%24' + key, 'gm');
     input = input.replace(regex, value);
-    error.callsomething();
   });
 
   // Parse commands
@@ -104,8 +114,8 @@ exports.processRequest = function (request, response) {
       }
     }, config.timeout);
 
-    outgoingData.command = command;
-    outgoingData.pipedResponse = pipedResponse;
+    outgoingData.command = _.clone(command);
+    outgoingData.pipedResponse = _.clone(pipedResponse);
     actionFound.execute(outgoingData, function (actionResponse) {
       responseText = actionResponse;
 
@@ -176,7 +186,7 @@ exports.processRequest = function (request, response) {
 };
 
 exports.addAction = function (action) {
-  if (!action.trigger || !action.description || !action.execute) {
+  if (!action.description || !action.execute) {
     log.error('Invalid bot action', action);
     return false;
   }

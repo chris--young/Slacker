@@ -1,11 +1,8 @@
-var bot = require(__dirname + '/../bot.js')
-
-var https = require('https')
+var bot   = require(__dirname + '/../bot.js');
+var https = require('https');
 
 var action = {
   name: 'btc',
-
-  trigger: /^btc$/,
 
   description: 'Display the current asking price of BTC from Bitstamp.',
 
@@ -15,27 +12,26 @@ var action = {
       port: 443,
       path: '/api/ticker/',
       method: 'GET'
-    }
+    };
 
     var request = https.request(options, function(response) {
-      var responseText = ''
+      var responseText = '';
       response.on('data', function(data) {
-        responseText += data.toString()
-      })
+        responseText += data.toString();
+      });
       response.on('end', function() {
         try {
-          callback(JSON.parse(responseText).ask + ' USD')
+          callback(JSON.parse(responseText).ask + ' USD');
         } catch (exception) {
-          throw exception
+          throw exception;
         }
-      })
-    })
-    request.end()
+      });
+    }).end();
 
     request.on('error', function(error) {
-      throw error
-    })
+      throw error;
+    });
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

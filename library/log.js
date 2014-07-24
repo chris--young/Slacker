@@ -16,7 +16,16 @@ function format(type, message, data, id) {
     timestamp: timestamp
   }
 
-  return JSON.stringify(dataObject)
+  var stringifiedData;
+
+  try {
+    stringifiedData = JSON.stringify(dataObject);
+  } catch (error) {
+    dataObject.data = data.toString();
+    stringifiedData = JSON.stringify(dataObject);
+  }
+
+  return JSON.stringify(stringifiedData)
 }
 
 function writeToFile(fileName, dataString) {

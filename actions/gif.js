@@ -12,7 +12,7 @@ var action = {
   apiKey: 'dc6zaTOxFJmzC',
 
   execute: function(data, callback) {
-    var tag = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1)
+    tag = data.command.arguments.join(' ').trim();
     tag = tag === 'random' ? '' : '&tag=' + tag.replace(/ /g, '%20')
 
     var options = {
@@ -28,8 +28,13 @@ var action = {
         responseText += data.toString()
       })
       response.on('end', function() {
+        var output = JSON.parse(responseText).data;
+
+        if (typeof output === 'array') {
+          output = "No results.";
+        } 
         try {
-          callback(JSON.parse(responseText).data.image_url)
+          callback(output.image_url)
         } catch (exception) {
           throw exception
         }

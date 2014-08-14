@@ -55,7 +55,7 @@ function prompt() {
       }
       else {
         // Input text must be parsed separately from commands
-        actionFound.execute({text: parse.slackText(answer)}, function (actionResponse) {
+        actionFound.execute({command: command}, function (actionResponse) {
           // Emit response
           console.log(actionResponse)
           commandLength--

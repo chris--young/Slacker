@@ -1,4 +1,5 @@
 var bot = require(__dirname + '/../bot.js')
+var _ = require("lodash")
 
 var https = require('https')
 
@@ -12,13 +13,17 @@ var action = {
   apiKey: 'dc6zaTOxFJmzC',
 
   execute: function(data, callback) {
-    var tag = data.text.substring(data.text.indexOf('\"') + 1, data.text.length - 1)
-    tag = tag === 'random' ? '' : '&tag=' + tag.replace(/ /g, '%20')
+    tag = data.command.arguments.join(' ').trim()
+    tag = tag === 'random' ? '' : tag
+    this.requestTag(tag, callback)
+  },
 
+  requestTag: function (tag, callback) {
+    var self = this
     var options = {
       hostname: 'api.giphy.com',
       port: 443,
-      path: '/v1/gifs/random?api_key=' + this.apiKey + tag,
+      path: '/v1/gifs/random?api_key=' + self.apiKey + (tag ? '&tag=' + encodeURIComponent(tag) : ''),
       method: 'GET'
     }
 
@@ -28,10 +33,19 @@ var action = {
         responseText += data.toString()
       })
       response.on('end', function() {
-        try {
-          callback(JSON.parse(responseText).data.image_url)
-        } catch (exception) {
-          throw exception
+        var output = JSON.parse(responseText).data;
+
+        if (_.isArray(output)) {
+          self.requestTag("sad", function (url) {
+            callback("No image found for that search :(\n" + url)
+          })
+        }
+        else {
+          try {
+            callback(output.image_url)
+          } catch (exception) {
+            throw exception
+          }
         }
       })
     })

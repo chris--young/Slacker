@@ -13,8 +13,25 @@
     "name": "Chris Young",
     "email": "cyoung@mobiquityinc.com"
   },
+  "contributors": [
+    {
+      "name": "Jason Kleinberg",
+      "email": "jkleinberg@mobiquityinc.com"
+    },
+    {
+      "name": "Firoze Rakib",
+      "email": "frakib@mobiquityinc.com"
+    },
+    {
+      "name": "Andrew Crites",
+      "email": "acrites@mobiquityinc.com"
+    }
+  ],
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "slack-node": "0.0.9"
+  },
   "devDependencies": {
     "mocha": "~1.20.1"
   }

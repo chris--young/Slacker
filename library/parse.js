@@ -1,5 +1,3 @@
-'use strict';
-
 var _ = require('lodash');
 var uuid = require(__dirname  + '/id.js');
 

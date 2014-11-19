@@ -1,16 +1,20 @@
-'use strict';
+/**
+ * bot.js
+ *
+ * @description: processes Slack requests and executes appropriate actions
+ * @author: Chris Young <cyoung@mobiquityinc.com>
+ */
 
-// NPM modules
-var _           = require('lodash');
-var fs          = require('fs');
-var https       = require('https');
-var querystring = require('querystring');
-var Slack       = require('slack-node');
+var _ = require('lodash');
 
-// Libraries
-var config      = require(__dirname + '/config.json');
-var log         = require(__dirname + '/library/log.js');
-var parse       = require(__dirname + '/library/parse.js');
+var fs = require('fs'),
+    https = require('https'),
+    querystring = require('querystring'),
+    Slack = require('slack-node');
+
+var config = require(__dirname + '/config.json'),
+    log = require(__dirname + '/library/log.js'),
+    parse = require(__dirname + '/library/parse.js');
 
 var slack = {
   webhook: new Slack(config.token.webhook, config.domain),
@@ -19,35 +23,31 @@ var slack = {
 
 exports.actions = [];
 
-exports.setup = function (callback) {
-  var setup;
-  var x;
-  fs.readdir(__dirname + '/actions', function (error, files) {
-    var errors = [];
-    if (error) return callback(error, files);
+/**
+ * setup()
+ *
+ * @param: callback {Function}
+ */
+exports.setup = function setup(callback) {
+  fs.readdir(__dirname + '/actions', function readdir(error, files) {
+    if (error)
+      return callback(error, files);
   
-    _.each(files, function (file) {
-      var action = require(__dirname + '/actions/' + file);
-      if (!action) return true;
-      // exports.actions.push(action);
-      setup = action.setup;
-      if (setup && _.isFunction(setup)) setup(function (error, data) {
-        console.log('Running setup of ' + file);
-        if (error) {
-          errors.push(error);
-          log.error(new Error('error running setup function on ' + data.name));
-        } else {
-          log.info('Success running setup function of action' + data.name);
-        }
-      });
-    });
+    for (var x = 0; x < files.length; x++)
+      require(__dirname + '/actions/' + files[x]);
 
+    callback(null);
     log.info('bot setup complete');
-    callback((errors.length > 0) ? errors : null, exports.actions);
   });
 };
 
-exports.processRequest = function (request, response) {
+/**
+ * processRequest()
+ *
+ * @param: request {Object}
+ * @param: response {Object}
+ */
+exports.processRequest = function processRequest(request, response) {
   var actionFound, commands, input, outgoingData, pipedResponse, regex, requestText, responseMethod, responseText, VARIABLES;
   
   input = request.body.text;
@@ -70,7 +70,6 @@ exports.processRequest = function (request, response) {
   commands = parse.commands(input);
   responseMethod = (request.body.trigger_word) ? 'webhook' : 'api';
 
-  requestText;
   if (request.body.trigger_word)
     requestText = parse.slackText(input.substring(request.body.trigger_word.length + 1, input.length));
   else {// command
@@ -89,8 +88,6 @@ exports.processRequest = function (request, response) {
     user_name:    request.body.user_name
   };
 
-  responseText;
-  actionFound;
   pipedResponse = null;
 
 
@@ -179,41 +176,45 @@ exports.processRequest = function (request, response) {
 
   });
 
-  function formatResponse (response) {
-
+  function formatResponse(response) {
     return (request.body.trigger_word) ? JSON.stringify({text: response}) : response;
   } 
 };
 
-exports.addAction = function (action) {
+/**
+ * executeAction()
+ *
+ * @param: action {Object}
+ */
+exports.executeAction = function executeAction(action) {
+};
+
+/**
+ * addAction()
+ *
+ * @param: action {Object}
+ */
+exports.addAction = function addAction(action) {
   if (!action.description || !action.execute) {
     log.error('Invalid bot action', action);
     return false;
   }
 
-  var existing = _.find(exports.actions, {name: action});
+  var existing;
+  for (var x = 0; x < exports.actions.length; x++)
+    if (exports.actions[x].name === action.name)
+      existing = true;
 
   if (existing) {
     log.error('Bot action trigger collision', action.trigger);
     return false;
   }
 
-  log.info('Bot action added: ' + action.name);
+  if (action.setup)
+    action.setup();
+
   exports.actions.push(action);
+  log.info('Bot action added: ' + action.name);
+
   return action;
-};
-
-exports.sendMessage = function (message, channel, callback) {
-  callback = callback || function () {};
-  var messageData = {
-    token: config.token.robot,
-    channel: channel,
-    text: message
-  };
-
-  https.get('https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData), function (response) {
-    response.on('end', function () {
-      callback(response.error, response);      
-    });
-  }).end();
 };

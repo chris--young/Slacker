@@ -4,12 +4,17 @@
  * @author: Chris Young <young.c.5690@gmail.com>
  */
 
-var log = require(__dirname + '/library/log.js');
+var log = require(__dirname+'/library/log.js');
 
-var bot = require(__dirname + '/bot.js');
+var bot = require(__dirname+'/bot.js');
 
+/**
+ * route()
+ * @param: <Object> request
+ * @param: <Object> response
+ */
 function route(request, response) {
-  if (request.method === 'POST')
+  if (request.method == 'POST')
     bot.processRequest(request, response);
   else {
     response.statusCode = 405;

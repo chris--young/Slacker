@@ -16,15 +16,15 @@ exports.actions = [];
 
 /**
  * setup()
- * @param: callback {Function}
+ * @param: <Function> callback
  */
 exports.setup = function setup(callback) {
-  fs.readdir(__dirname + '/actions', function readdir(error, files) {
+  fs.readdir(__dirname+'/actions', function readdir(error, files) {
     if (error)
       return callback(error, files);
   
     for (var x = 0; x < files.length; x++)
-      require(__dirname + '/actions/' + files[x]);
+      require(__dirname+'/actions/'+files[x]);
 
     callback(null);
     log.info('bot setup complete');
@@ -33,8 +33,8 @@ exports.setup = function setup(callback) {
 
 /**
  * processRequest()
- * @param: request {Object}
- * @param: response {Object}
+ * @param: <Object> request
+ * @param: <Object> response
  */
 exports.processRequest = function processRequest(request, response) {
   var requestText = parse.slackText(request.body.text.substring(request.body.trigger_word.length + 1, request.body.text.length));
@@ -51,41 +51,38 @@ exports.processRequest = function processRequest(request, response) {
     text: requestText
   };
     
-  var responseText,
-      actionFound,
+  var actionFound,
       x = -1;
-  
+
+  function sendTimeout() {
+    log.error('bot action timed out', exports.actions[x].trigger, request.id);
+    response.end(500);
+  }
+
+  function sendResponse(responseText) {
+    if (!responseText) {
+      response.end(500);
+      log.error('action did not return a response', exports.actions[x].trigger, request.id);
+      return;
+    }
+
+    log.info('bot responding with action', exports.actions[x].trigger, request.id);
+    if (typeof responseText === 'string') {
+      responseText.replace('&', '&amp;');
+      responseText.replace('<', '&lt;');
+      responseText.replace('>', '&gt;');
+    } else
+      responseText = responseText.toString();
+
+    response.end(JSON.stringify({text: responseText}));
+  }
+
   while (!actionFound && x++ < exports.actions.length - 1) {
     if (exports.actions[x].trigger.test(requestText)) {
       actionFound = true;
-      setTimeout(function() {
-        if (!responseText) {
-          log.error('bot action timed out', exports.actions[x].trigger, request.id);
-          response.statusCode = 500;
-          response.end();
-        }
-      }, config.timeout);
-  
-      exports.actions[x].execute(requestData, function(responseText) {
-        if (!responseText) {
-          response.statusCode = 500;
-          response.end();
-          log.error('action did not return a response', exports.actions[x].trigger, request.id);
-          return;
-        }
-
-        log.info('bot responding with action', exports.actions[x].trigger, request.id);
-        if (typeof responseText === 'string') {
-          responseText.replace('&', '&amp;');
-          responseText.replace('<', '&lt;');
-          responseText.replace('>', '&gt;');
-        } else
-          responseText = responseText.toString();
-
-        response.statusCode = 200;
-        response.end(JSON.stringify({text: responseText}));
-        log.info('bot successfully responded', {}, request.id);
-      });
+      
+      setTimeout(sendTimeout, config.timeout);
+      exports.actions[x].execute(requestData, sendResponse);
     }
   }
 
@@ -98,15 +95,8 @@ exports.processRequest = function processRequest(request, response) {
 };
 
 /**
- * executeAction()
- * @param: action {Object}
- */
-exports.executeAction = function executeAction(action) {
-};
-
-/**
  * addAction()
- * @param: action {Object}
+ * @param: <Object> action
  */
 exports.addAction = function addAction(action) {
   if (!action.description || !action.execute) {
@@ -127,7 +117,7 @@ exports.addAction = function addAction(action) {
     action.setup();
 
   exports.actions.push(action);
-  log.info('Bot action added: ' + action.name);
+  log.info('Bot action added: '+action.name);
 
   return action;
 };

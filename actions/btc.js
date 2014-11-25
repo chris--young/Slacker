@@ -11,7 +11,6 @@ var action = {
   execute: function execute(data, callback) {
     var options = {
       hostname: 'www.bitstamp.net',
-      port: 443,
       path: '/api/ticker/',
       method: 'GET'
     };

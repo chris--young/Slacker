@@ -1,7 +1,7 @@
 /**
  * library/log.js
  * @description: debug log
- * @author: Chris Young <young.c.5690@gmail.com.com>
+ * @author: Chris Young <young.c.5690@gmail.com>
  */
 
 var cluster = require('cluster'),

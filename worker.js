@@ -9,13 +9,13 @@ var cluster = require('cluster'),
     domain = require('domain'),
     url = require('url');
 
-var config = require(__dirname + '/config.json'),
-    router = require(__dirname + '/router.js'),
-    bot = require(__dirname + '/bot.js');
+var config = require(__dirname+'/config.json'),
+    router = require(__dirname+'/router.js'),
+    bot = require(__dirname+'/bot.js');
 
-var id = require(__dirname + '/library/id.js'),
-    log = require(__dirname + '/library/log.js'),
-    parse = require(__dirname + '/library/parse.js');
+var id = require(__dirname+'/library/id.js'),
+    log = require(__dirname+'/library/log.js'),
+    parse = require(__dirname+'/library/parse.js');
 
 module.exports = function worker() {
   bot.setup(function setup(error) {

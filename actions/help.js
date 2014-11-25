@@ -1,6 +1,6 @@
-var bot = require(__dirname + '/../bot.js')
+var bot = require(__dirname + '/../bot.js');
 
-var fs = require('fs')
+var fs = require('fs');
 
 var action = {
   name: 'help',
@@ -14,24 +14,24 @@ var action = {
   setup: function() {
     fs.readFile(__dirname + '/../action_data/help.md', function(error, data) {
       if (error)
-        throw error
+        throw error;
 
-      action.helpText = data.toString()
-    })
+      action.helpText = data.toString();
+    });
   },
 
   execute: function(data, callback) {
-    var components = data.text.split(' ')
+    var components = data.text.split(' ');
 
     if (components.length === 1)
-      callback(this.helpText)
+      callback(this.helpText);
 
     for (var x = 0; x < bot.actions.length; x++)
       if (bot.actions[x].name === components[1])
-        callback(bot.actions[x].trigger)
+        callback(bot.actions[x].trigger);
 
-    callback('Action "' + components[1] + '" not found.')
+    callback('Action "' + components[1] + '" not found.');
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

@@ -1,4 +1,4 @@
-var bot = require(__dirname + '/../bot.js')
+var bot = require(__dirname + '/../bot.js');
 
 var action = {
   name: 'list',
@@ -8,12 +8,12 @@ var action = {
   description: 'List all availble actions.',
 
   execute: function(data, callback) {
-    var output = '*Available Actions*\n\n'
+    var output = '*Available Actions*\n\n';
     for (var x = 0; x < bot.actions.length; x++)
-      output += '`' + bot.actions[x].name + '` ' + bot.actions[x].description + '\n'
+      output += '`' + bot.actions[x].name + '` ' + bot.actions[x].description + '\n';
 
-    callback(output)
+    callback(output);
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

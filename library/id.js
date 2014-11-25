@@ -1,8 +1,7 @@
 /**
  * library/id.js
- *
  * @description: uuid v4
- * @author: Chris Young <cyoung@mobiquityinc.com>
+ * @author: Chris Young <young.c.5690@gmail.com>
  */
 
 var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');

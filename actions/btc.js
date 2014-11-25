@@ -4,6 +4,8 @@ var bot = require(__dirname + '/../bot.js'),
 var action = {
   name: 'btc',
 
+  trigger: /^btc$/,
+
   description: 'Display the current asking price of BTC from Bitstamp.',
 
   execute: function execute(data, callback) {

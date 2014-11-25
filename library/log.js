@@ -1,8 +1,7 @@
 /**
  * library/log.js
- *
  * @description: debug log
- * @author: Chris Young <cyoung@mobiquityinc.com>
+ * @author: Chris Young <young.c.5690@gmail.com.com>
  */
 
 var cluster = require('cluster'),
@@ -24,7 +23,6 @@ function format(type, message, data, id) {
   };
 
   var stringifiedData;
-
   try {
     stringifiedData = JSON.stringify(dataObject);
   } catch (exception) {

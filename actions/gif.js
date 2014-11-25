@@ -13,7 +13,7 @@ var action = {
   apiKey: 'dc6zaTOxFJmzC',
 
   execute: function(data, callback) {
-    tag = data.command.arguments.join(' ').trim()
+    tag = data.text;
     tag = tag === 'random' ? '' : tag
     this.requestTag(tag, callback)
   },

@@ -11,14 +11,14 @@
 
 ### Slacker is a bot for [Slack](https://slack.com) built on the Node.js platform.
 
-  Slacker processes Slack WebHook requests and executes pre-defined actions before responding to Slack. It deals with the networking aspects of your bot so you can focus on functionality.
+  Slacker processes Slack WebHook requests and executes pre-defined actions before responding to Slack.
 
 ## Setup
 
   1. Clone this repository.
 
     ````
-    ➜ ~ git clone git@github.com:chris--young/Slacker.git
+    ➜ git clone git@github.com:chris--young/Slacker.git
     ````
 
   2. Install [Node.js](http://node.js).
@@ -27,9 +27,7 @@
 
     * Create a Outgoing WebHook in Slack and point it to your instance of Slacker.
 
-      * Slacker expects to receive requests directly to the server's root URL.
-
-      * Be sure to include a valid `key` URL parameter on your outgoing-webhook URL when you set it in Slack.
+      * Be sure to update `token` in `config.json` in match your outgoing-webhook.
 
     * Create an Incoming WebHook in Slack. 
 
@@ -38,7 +36,7 @@
   4. Start Slacker.
 
     ````
-    ➜ ~ sh Slacker 
+    ➜ sh Slacker 
     ````
 
 ## Actions
@@ -119,11 +117,11 @@
   Slacker uses [Mocha](https://www.npmjs.org/package/mocha) for testing. To run the tests first install Mocha.
 
   ````
-  ➜ ~ npm install -g mocha
+  ➜ npm install -g mocha
   ````
 
   Then run the tests.
 
   ````
-  ➜ ~ npm test
+  ➜ npm test
   ````

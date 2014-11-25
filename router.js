@@ -1,8 +1,7 @@
 /**
  * router.js
- *
- * @description: sends requests to bot
- * @author: Chris Young <cyoung@mobiquityinc.com>
+ * @description: sends requests to the bot
+ * @author: Chris Young <young.c.5690@gmail.com>
  */
 
 var log = require(__dirname + '/library/log.js');

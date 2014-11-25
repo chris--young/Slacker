@@ -12,7 +12,7 @@ var action = {
   },
 
   execute: function(data, callback) {
-  	callback( data.pipedResponse || data.command.arguments.join(' ') );
+  	callback(data.text);
   }
 };
 

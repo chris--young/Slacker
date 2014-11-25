@@ -16,4 +16,4 @@ var action = {
   }
 };
 
-bot.addAction(action);
+// bot.addAction(action);

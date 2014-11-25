@@ -1,8 +1,7 @@
 /**
  * library/slack.js
- *
- * @description: helper functions for the Slack API
- * @author: Chris Young <cyoung@mobiquityinc.com>
+ * @description: slack api wrapper
+ * @author: Chris Young <young.c.5690@gmail.com>
  */
 
 var config = require(__dirname + '/../config.json');

@@ -1,0 +1,10 @@
+{
+  "port": 8421,
+  "logs": "logs",
+  "slack": {
+    "host": "hooks.slack.com",
+    "path": "/services/foo/bar",
+    "token": "foobar"
+  },
+  "timeout": 8000
+}

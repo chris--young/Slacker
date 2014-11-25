@@ -1,8 +1,7 @@
 /**
  * worker.js
- *
- * @description: worker process
- * @author: Chris Young <cyoung@mobiquityinc.com>
+ * @description: server subprocess
+ * @author: Chris Young <young.c.5690@gmail.com>
  */
 
 var cluster = require('cluster'),
@@ -76,44 +75,30 @@ module.exports = function worker() {
 
           log.info('headers', request.headers, request.id);
 
-          var key = request.url.parameters.key;
-          if (key) {
-            if (~config.keys.indexOf(key)) {
-              if (request.body) {
-                try {
-                  request.body = parse.httpParameters(request.body);
-                  log.info('body', request.body, request.id);
-                } catch (exception) {
-                  log.error('failed to parse request body', exception, request.id);
-                  response.statusCode = 415;
-                  response.end();
-                  return;
-                }
-              }
-              request.data = {};
+          if (request.body) {
+            try {
+              request.body = parse.httpParameters(request.body);
+              log.info('body', request.body, request.id);
+            } catch (exception) {
+              log.error('failed to parse request body', exception, request.id);
+              response.statusCode = 415;
+              response.end();
+              return;
+            }
+          }
+          request.data = {};
 
-              if (request.body.token) {
-                if ((request.body.trigger_word && request.body.token === config.token.webhook ) ||
-                    (request.body.command && request.body.token === config.token.api))
-                  router(request, response);
-                else {
-                  log.error('invalid token', request.body.token, request.id);
-                  response.statusCode = 403;
-                  response.end();
-                }
-              } else {
-                log.error('missing token', {}, request.id);
-                response.statusCode = 403;
-                response.end();
-              }
-            } else {
-              log.error('invalid key', key, request.id);
-              response.statusCode = 401;
+          if (request.body.token) {
+            if (request.body.token === config.slack.token )
+              router(request, response);
+            else {
+              log.error('invalid token', request.body.token, request.id);
+              response.statusCode = 403;
               response.end();
             }
           } else {
-            log.error('missing key', {}, request.id);
-            response.statusCode = 401;
+            log.error('missing token', {}, request.id);
+            response.statusCode = 403;
             response.end();
           }
         });

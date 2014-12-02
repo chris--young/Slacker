@@ -27,11 +27,11 @@
 
     * Create a Outgoing WebHook in Slack and point it to your instance of Slacker.
 
-      * Be sure to update `token` in `config.json` in match your outgoing-webhook.
+      * Be sure to update `token` in `config.json` to match your outgoing-webhook.
 
     * Create an Incoming WebHook in Slack. 
 
-      * Be sure to update `hostname` and `path` in `config.json` in match your incoming-webhook.
+      * Be sure to update `hostname` and `path` in `config.json` to match your incoming-webhook.
 
   4. Start Slacker.
 
@@ -56,7 +56,7 @@
 ### A Sample Action
 
   ````
-  var bot = require(__dirname + '/../bot.js')
+  var bot = require(__dirname + '/../bot.js');
 
   var action = {
     name: 'echo',
@@ -70,11 +70,11 @@
     },
 
     execute: function(data, callback) {
-      callback(data.text.split('\"')[1])
+      callback(data.text);
     }
-  }
+  };
 
-  bot.addAction(action)
+  bot.addAction(action);
   ````
 
 #### Name
@@ -109,7 +109,7 @@
     user_id: 'U02A1R3PM',
     user_name: 'chris_young',
     text: 'echo foo'
-  }
+  };
   ````
 
 ## Tests

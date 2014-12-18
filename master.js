@@ -14,7 +14,7 @@ if (cluster.isMaster) {
     }
 
     log.info('application started')
-    console.log('application started on port:', config.port)
+    console.log('application started on port:', process.env.PORT || config.port)
 
     var cores = os.cpus().length
     for (var x = 0; x < cores; x++)

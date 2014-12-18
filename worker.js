@@ -114,9 +114,9 @@ module.exports = function() {
         })
       })
     })
-    
-    server.listen(config.port, function() {
-      log.info('listening on port ' + config.port)
+
+    server.listen(process.env.PORT || config.port, function() {
+      log.info('listening on port ' + process.env.PORT || config.port)
     })
   })
 }

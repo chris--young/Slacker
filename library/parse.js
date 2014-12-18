@@ -15,7 +15,7 @@ var slackEncoding = {
 }
 var slackChars = Object.keys(slackEncoding)
 
-exports.httpParameters = function(parameters) {
+exports.httpParameters = function httpParameters (parameters) {
   var parameters = parameters.split('&')
   var parametersObject = {}
 
@@ -27,7 +27,7 @@ exports.httpParameters = function(parameters) {
   return parametersObject
 }
 
-exports.slackText = function(encodedText) {
+exports.slackText = function slackText (encodedText) {
   var decodedText = ''
 
   while (encodedText) {
@@ -45,7 +45,7 @@ exports.slackText = function(encodedText) {
       if (encodedText[0] === '%') {
         try {
           decodedText += decodeURIComponent(encodedText.substring(0, 3))
-          encodedText = encodedText.substring(3, encodedText.length) 
+          encodedText = encodedText.substring(3, encodedText.length)
         } catch (exception) {
           decodedText += encodedText[0]
           encodedText = encodedText.substring(1, encodedText.length)
@@ -66,7 +66,7 @@ exports.slackText = function(encodedText) {
  * @param  {String} input  String of commands
  * @return {Array}        Array of tokens, including commands, arguments, switches, resources, etc.
  */
-function commands (tokens, input) {
+ exports.commands = function commands (tokens, input) {
   var commandId = '';
   if (typeof tokens === 'string') {
     input = tokens;
@@ -89,7 +89,7 @@ function commands (tokens, input) {
         } else if (quotes === 'single') {
           boundary = true;
           quotes = '';
-        } 
+        }
         break;
 
       case '"':
@@ -98,7 +98,7 @@ function commands (tokens, input) {
         } else if (quotes === 'double') {
           boundary = true;
           quotes = '';
-        } 
+        }
         break;
 
       case '\\':
@@ -135,7 +135,7 @@ function commands (tokens, input) {
           if (tokens.length === 0) state = 'command';
           else if(tokens[tokens.length - 1].value === '>') state = 'resource';
           else state = 'command';
-        } 
+        }
         break;
     }
 
@@ -152,7 +152,7 @@ function commands (tokens, input) {
     index++;
   }
   return normalize(tokens);
-}
+};
 
 function normalize (commands) {
   var normalizedCommands = [];
@@ -176,7 +176,7 @@ function normalize (commands) {
           pipe: false,
           redirectTo: []
         };
-        
+
         normalizedCommands.push(command);
         thisCommand = _.find(normalizedCommands, {id: token.id});
         break;
@@ -203,7 +203,7 @@ function normalize (commands) {
       case 'resource':
         if (resourceTypes[token.value.substring(0,1)])
           thisCommand.redirectTo.push({type: resourceTypes[token.value.substring(0,1)] , name: token.value.substring(1)});
-        else 
+        else
           thisCommand.redirectTo.push({type: 'file' , name: token.value});
         break;
 
@@ -216,7 +216,7 @@ function normalize (commands) {
   return normalizedCommands;
 }
 
-/** 
+/**
  * Creates a parsing Error and associated formatted message
  * @param  {String} error Error message to be displayed to the user
  * @param  {String} input String that was to be parsed when the error was thrown
@@ -238,5 +238,3 @@ function throwParseError (error, input, index) {
 
   throw new Error(errorText);
 }
-
-exports.commands = commands;

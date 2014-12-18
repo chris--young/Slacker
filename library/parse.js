@@ -174,6 +174,7 @@ function normalize (commands) {
           arguments: [],
           switches: [],
           pipe: false,
+          redirects: false,
           redirectTo: []
         };
 
@@ -198,6 +199,7 @@ function normalize (commands) {
 
       case 'operator':
         if (token.value === '|') thisCommand.pipe = true;
+        if (token.value === '>') thisCommand.redirects = true;
         break;
 
       case 'resource':

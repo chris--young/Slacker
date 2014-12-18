@@ -21,7 +21,7 @@ var action = {
       });
       response.on('end', function() {
         try {
-          callback(JSON.parse(responseText).ask + ' USD');
+          callback('1 BTC = ' + JSON.parse(responseText).ask + ' USD');
         } catch (exception) {
           throw exception;
         }

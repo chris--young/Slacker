@@ -6,9 +6,15 @@ var https = require('https')
 var action = {
   name: 'gif',
 
-  trigger: /^gif ".*"$/,
+  description: 'Displays animated GIFs from Giphy.',
 
-  description: 'Display a random GIF from Giphy.',
+  helpText: '' +
+    'Displays animated GIFs from Giphy.\n' +
+    '```' +
+    '/slacker gif [tag] [...]' +
+    '```\n' +
+    'If no tag is supplied, then `gif` will return a completely random gif. If one or more tags are provided, `gif` will return a random result from a search for all of the tags on Giphy.'
+  ,
 
   apiKey: 'dc6zaTOxFJmzC',
 

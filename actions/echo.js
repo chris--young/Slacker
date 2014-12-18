@@ -16,7 +16,6 @@ var action = {
   },
 
   execute: function(data, callback) {
-    console.log(JSON.stringify(data, null, '  '));
     // If piped data is provided, send that, otherwise send any text passed in.
     callback( data.pipedResponse || data.command.arguments.join(' ') );
   }

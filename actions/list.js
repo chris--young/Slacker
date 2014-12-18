@@ -3,8 +3,6 @@ var bot = require(__dirname + '/../bot.js')
 var action = {
   name: 'list',
 
-  trigger: /^list$/,
-
   description: 'List all availble actions.',
 
   execute: function(data, callback) {
@@ -14,6 +12,6 @@ var action = {
 
     callback(output)
   }
-}
+};
 
-bot.addAction(action)
+bot.addAction(action);

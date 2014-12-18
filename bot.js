@@ -215,7 +215,7 @@ exports.addAction = function (action) {
 exports.sendMessage = function (message, channel, callback) {
   callback = callback || function () {};
   var messageData = {
-    token: config.token.bot,
+    token: config.token.user,
     channel: channel,
     text: message
   };

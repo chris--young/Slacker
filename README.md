@@ -31,7 +31,7 @@
 
       * Be sure to note the token for this Slash Command, as you will need it for the configuration file.
 
-    * Create an Bot integration in Slack.
+    * Get your admin user token. The easiest way is to use the (API explorer)[https://api.slack.com/methods/emoji.list/test], and grab it off the url.
 
   4. Create a `config.json` file. Note that a `sample-config.json` is included in this package. You can simply copy this, and replace the two token values with the tokens that you noted above.
 
@@ -41,7 +41,7 @@
     "logs": "logs",
     "token": {
       "slashCommand": "[Enter your Slash Command token here.]",
-      "bot": "[Enter your Bot token here.]"
+      "user": "[Enter your User token here.]"
     },
     "timeout": 8000
   }

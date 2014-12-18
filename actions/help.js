@@ -1,11 +1,10 @@
 var bot = require(__dirname + '/../bot.js')
 
 var fs = require('fs')
+var _ = require('lodash');
 
 var action = {
   name: 'help',
-
-  trigger: /^help.*/,
 
   description: 'Display information on how to user Slacker.',
 
@@ -13,25 +12,46 @@ var action = {
 
   setup: function() {
     fs.readFile(__dirname + '/../action_data/help.md', function(error, data) {
-      if (error)
-        throw error
+      if (error) {
+        throw error;
+      }
 
-      action.helpText = data.toString()
+      action.helpText = data.toString();
     })
   },
 
   execute: function(data, callback) {
-    var components = data.text.split(' ')
+    var args, action, helpText, helpTitle;
 
-    if (components.length === 1)
-      callback(this.helpText)
+    args = data.command.arguments;
+    helpText = '';
+    helpTitle = '';
 
-    for (var x = 0; x < bot.actions.length; x++)
-      if (bot.actions[x].name === components[1])
-        callback(bot.actions[x].trigger)
+    if (args.length === 0) {
 
-    callback('Action "' + components[1] + '" not found.')
+      helpTitle = this.name;
+      helpText = this.helpText;
+    } else if (args.length >= 1) {
+      action = _.find(bot.actions, {name: data.command.arguments[0]});
+      helpTitle = args[0];
+
+      if (!action) {
+        console.log('No action.');
+        helpText = 'Command, `' + args[0] + '`, not found. Did you mistype it?';
+      } else if (!action.helpText && !action.description) {
+        helpText = 'No help information found.';
+      } else if (!action.helpText && action.description) {
+        helpText = action.description;
+      } else if (typeof action.helpText === 'string') {
+        helpText = action.helpText;
+      } else if (typeof action.helpText === 'function') {
+        helpText = action.helpText();
+      }
+    }
+
+    callback('*' + helpTitle.toUpperCase() + '*\n' + helpText.replace(/^/g, '> '));
+
   }
 }
 
-bot.addAction(action)
+bot.addAction(action);

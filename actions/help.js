@@ -49,7 +49,7 @@ var action = {
       }
     }
 
-    callback('*' + helpTitle.toUpperCase() + '*\n' + helpText.replace(/^/g, '> '));
+    callback('*' + helpTitle.toUpperCase() + '*\n' + '> ' + helpText.replace(/\n/g, '\n> '));
 
   }
 }

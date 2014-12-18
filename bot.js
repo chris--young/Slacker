@@ -5,17 +5,11 @@ var _           = require('lodash');
 var fs          = require('fs');
 var https       = require('https');
 var querystring = require('querystring');
-var Slack       = require('slack-node');
 
 // Libraries
 var config      = require(__dirname + '/config.json');
 var log         = require(__dirname + '/library/log.js');
 var parse       = require(__dirname + '/library/parse.js');
-
-var slack = {
-  webhook: new Slack(config.token.webhook, config.domain),
-  api:     new Slack(config.token.api)
-};
 
 exports.actions = [];
 

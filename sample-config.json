@@ -1,0 +1,9 @@
+{
+  "port": 80,
+  "logs": "logs",
+  "token": {
+    "slashCommand": "[Enter your Slash Command token here.]",
+    "bot": "[Enter your Bot token here.]"
+  },
+  "timeout": 8000
+}

@@ -19,17 +19,19 @@ var slack = {
 
 exports.actions = [];
 
-exports.setup = function (callback) {
+exports.setup = function setup (callback) {
   var setup;
   var x;
+
   fs.readdir(__dirname + '/actions', function (error, files) {
     var errors = [];
     if (error) return callback(error, files);
-  
+
     _.each(files, function (file) {
-      var action = require(__dirname + '/actions/' + file);
-      if (!action) return true;
-      // exports.actions.push(action);
+      require(__dirname + '/actions/' + file);
+    });
+
+    _.each(exports.actions, function runSetup (action) {
       setup = action.setup;
       if (setup && _.isFunction(setup)) setup(function (error, data) {
         console.log('Running setup of ' + file);
@@ -40,6 +42,7 @@ exports.setup = function (callback) {
           log.info('Success running setup function of action' + data.name);
         }
       });
+
     });
 
     log.info('bot setup complete');
@@ -47,12 +50,24 @@ exports.setup = function (callback) {
   });
 };
 
-exports.processRequest = function (request, response) {
-  var actionFound, commands, input, outgoingData, pipedResponse, regex, requestText, responseMethod, responseText, VARIABLES;
-  
+exports.processRequest = function  processRequest (request, response) {
+  var
+    actionFound,
+    commands,
+    input,
+    outgoingData,
+    pipedResponse,
+    regex,
+    requestText,
+    responseMethod,
+    responseText,
+    VARIABLES
+  ;
+
   input = request.body.text;
 
-  // The keys on this object will
+  // The keys on this object will be replaced with their corresponding values
+  // at runtime.
   VARIABLES = {
     'HERE': '#' + request.body.channel_name,
     'ME': '@' + request.body.user_name,
@@ -152,11 +167,11 @@ exports.processRequest = function (request, response) {
               break;
 
             case 'channel':
-              exports.sendMessage(responseText, '#' + redirect.name);          
+              exports.sendMessage(responseText, '#' + redirect.name);
               break;
 
             case 'group':
-              exports.sendMessage(responseText, '#' + redirect.name);          
+              exports.sendMessage(responseText, '#' + redirect.name);
               break;
 
             case 'file':
@@ -182,7 +197,7 @@ exports.processRequest = function (request, response) {
   function formatResponse (response) {
 
     return (request.body.trigger_word) ? JSON.stringify({text: response}) : response;
-  } 
+  }
 };
 
 exports.addAction = function (action) {
@@ -213,7 +228,7 @@ exports.sendMessage = function (message, channel, callback) {
 
   https.get('https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData), function (response) {
     response.on('end', function () {
-      callback(response.error, response);      
+      callback(response.error, response);
     });
   }).end();
 };

@@ -7,7 +7,7 @@ var https       = require('https');
 var querystring = require('querystring');
 
 // Libraries
-var config      = require(__dirname + '/config.json');
+var config      = require(__dirname + '/library/config');
 var log         = require(__dirname + '/library/log.js');
 var parse       = require(__dirname + '/library/parse.js');
 

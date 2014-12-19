@@ -3,7 +3,7 @@ var http = require('http')
 var domain = require('domain')
 var url = require('url')
 
-var config = require(__dirname + '/config.json')
+var config = require(__dirname + '/library/config')
 var router = require(__dirname + '/router.js')
 var bot = require(__dirname + '/bot.js')
 

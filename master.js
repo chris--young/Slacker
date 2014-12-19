@@ -1,7 +1,7 @@
 var cluster = require('cluster')
 var os = require('os')
 
-var config = require(__dirname + '/config.json')
+var config = require(__dirname + '/library/config')
 var worker = require(__dirname + '/worker.js')
 
 var log = require(__dirname + '/library/log.js')

@@ -1,7 +1,7 @@
 var cluster = require('cluster')
 var fs = require('fs')
 
-var config = require(__dirname + '/../config.json')
+var config = require(__dirname + '/config')
 
 function format(type, message, data, id) {
   var speaker = cluster.isMaster ? 'master' : 'worker' + process.pid

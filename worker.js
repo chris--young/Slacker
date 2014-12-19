@@ -79,6 +79,8 @@ module.exports = function() {
               response.end()
               return
             }
+          } else if(request.method.toLowerCase() === 'get') {
+            response.end('Slacker is running.');
           }
           request.data = {}
 

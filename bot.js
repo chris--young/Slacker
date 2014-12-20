@@ -232,7 +232,7 @@ exports.sendMessage = function (message, channel, callback) {
   var url = 'https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData);
   https.get(url, function (response) {
     response.on('end', function () {
-      console.log('Message sent');
+      console.log('Message sent: ' + url);
       callback(response.error, response);
     });
 

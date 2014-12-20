@@ -160,12 +160,9 @@ exports.processRequest = function  processRequest (request, response) {
       // If the response should be redirected, then do so
       if (command.redirectTo.length > 0) {
         _.each(command.redirectTo, function (redirect) {
-          console.log('Redirecting to: ', redirect.name);
           switch (redirect.type) {
             case 'user':
-              exports.sendMessage(responseText, '@' + redirect.name, function (error, data) {
-                console.log('After redirecting to ' + redirect.name + ': error: ' + JSON.stringify(error, null, '  ') + ' data: ' + JSON.stringify(data, null, '  '));
-              });
+              exports.sendMessage(responseText, '@' + redirect.name);
               break;
 
             case 'channel':
@@ -229,7 +226,6 @@ exports.sendMessage = function (message, channel, callback) {
   };
 
   var url = 'https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData);
-  console.log('Sending message: ', JSON.stringify(url));
   https.get(url, function (response) {
     response.on('end', function () {
       callback(response.error, response);

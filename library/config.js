@@ -11,14 +11,12 @@ if (!configExists) {
     "logs": "logs",
     "token": {
       "slashCommand": process.env.TOKEN_SLASH_COMMAND,
-      "user": process.env.USER
+      "user": process.env.TOKEN_USER
     },
     "timeout": 8000
   };
 } else {
   config = require(__dirname + '/../config.json');
 }
-
-console.log('Using config:' + JSON.stringify(config));
 
 module.exports = config;

@@ -19,4 +19,6 @@ if (!configExists) {
   config = require(__dirname + '/../config.json');
 }
 
+console.log('Using config:' + JSON.stringify(config));
+
 module.exports = config;

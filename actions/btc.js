@@ -26,11 +26,13 @@ var action = {
           throw exception;
         }
       });
-    }).end();
+    });
 
     request.on('error', function(error) {
       throw error;
     });
+
+    request.end();
   }
 };
 

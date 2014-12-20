@@ -228,11 +228,10 @@ exports.sendMessage = function (message, channel, callback) {
     text: message
   };
 
-  console.log('Sending message: ', JSON.stringify(messageData));
   var url = 'https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData);
+  console.log('Sending message: ', JSON.stringify(url));
   https.get(url, function (response) {
     response.on('end', function () {
-      console.log('Message sent: ' + url);
       callback(response.error, response);
     });
 

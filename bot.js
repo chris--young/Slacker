@@ -160,6 +160,7 @@ exports.processRequest = function  processRequest (request, response) {
       // If the response should be redirected, then do so
       if (command.redirectTo.length > 0) {
         _.each(command.redirectTo, function (redirect) {
+          console.log('Redirecting to: ', redirect.name);
           switch (redirect.type) {
             case 'user':
               exports.sendMessage(responseText, '@' + redirect.name);

@@ -3,7 +3,6 @@ var log = require(__dirname + '/library/log.js')
 var bot = require(__dirname + '/bot.js')
 
 function route(request, response) {
-  console.log(request.method + ' ' + JSON.stringify(request.body, null, '  '));
   if (request.method === 'POST')
     bot.processRequest(request, response)
   else {

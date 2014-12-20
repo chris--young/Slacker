@@ -226,9 +226,11 @@ exports.sendMessage = function (message, channel, callback) {
     text: message
   };
 
+  console.log('Sending message: ', JSON.stringify(messageData));
   var url = 'https://slack.com/api/chat.postMessage?' + querystring.stringify(messageData);
   https.get(url, function (response) {
     response.on('end', function () {
+      console.log('Message sent');
       callback(response.error, response);
     });
   }).end();

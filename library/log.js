@@ -25,7 +25,7 @@ function format(type, message, data, id) {
     stringifiedData = JSON.stringify(dataObject);
   }
 
-  return JSON.stringify(stringifiedData)
+  return stringifiedData
 }
 
 function writeToFile(fileName, dataString) {

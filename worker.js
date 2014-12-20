@@ -26,6 +26,7 @@ module.exports = function() {
 
       serverDomain.on('error', function(error) {
         log.error('uncaught exception', error, response.id)
+        console.error(error.stack);
 
         try {
           var kill = setTimeout(function() {
@@ -39,6 +40,7 @@ module.exports = function() {
           response.end()
         } catch (exception) {
           log.error('failed to respond after uncaught exception', exception, response.id)
+          console.error(exception.stack);
         }
       })
 
@@ -48,6 +50,7 @@ module.exports = function() {
 
         request.on('error', function(error) {
           log.error('request error', error, request.id)
+          console.error(error);
 
           response.statusCode = 500
           response.end()

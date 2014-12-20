@@ -233,5 +233,9 @@ exports.sendMessage = function (message, channel, callback) {
       console.log('Message sent');
       callback(response.error, response);
     });
+
+    response.on('error', function (error) {
+      console.error(error);
+    })
   }).end();
 };

@@ -163,7 +163,9 @@ exports.processRequest = function  processRequest (request, response) {
           console.log('Redirecting to: ', redirect.name);
           switch (redirect.type) {
             case 'user':
-              exports.sendMessage(responseText, '@' + redirect.name);
+              exports.sendMessage(responseText, '@' + redirect.name, function (error, data) {
+                console.log('After redirecting to ' + redirect.name + ': error: ' + JSON.stringify(error, null, '  ') + ' data: ' + JSON.stringify(data, null, '  '));
+              });
               break;
 
             case 'channel':

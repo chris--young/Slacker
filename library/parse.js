@@ -125,8 +125,9 @@ exports.slackText = function slackText (encodedText) {
         break;
 
       case '-':
-        boundary = (state !== 'switch');
-        state = 'switch';
+        if (boundary) {
+          state = 'switch';
+        }
         break;
 
       default:

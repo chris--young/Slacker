@@ -7,23 +7,27 @@
     "node": "~0.10.28"
   },
   "scripts": {
-    "test": "mocha tests"
+    "start": "node master.js"
   },
   "author": {
     "name": "Chris Young",
+    "github": "https://github.com/chris--young",
     "email": "cyoung@mobiquityinc.com"
   },
   "contributors": [
     {
       "name": "Jason Kleinberg",
-      "email": "jkleinberg@mobiquityinc.com"
+      "github": "https://github.com/Ustice",
+      "email": "ustice@gmail.com"
     },
     {
       "name": "Firoze Rakib",
+      "github": "https://github.com/firoze",
       "email": "frakib@mobiquityinc.com"
     },
     {
       "name": "Andrew Crites",
+      "github": "https://github.com/ajcrites",
       "email": "acrites@mobiquityinc.com"
     }
   ],
@@ -34,8 +38,5 @@
   },
   "devDependencies": {
     "mocha": "~1.20.1"
-  },
-  "scripts": {
-    "start": "node master.js"
   }
 }

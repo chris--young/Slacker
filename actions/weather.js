@@ -5,9 +5,10 @@ var http = require('http');
 var action = {
     name: "weather",
 
-    trigger: /^weather ".*"$/,
-
     description: "Display weather based on City or ZIP",
+
+    helpText: "Get weather from openweathermap.org by Zip or City and State + \n" + 
+        "```" + "/slacker weather \"19102\" \n /slacker weather \"Philadelphia, PA\"" +  "```",
 
     execute: function(data, callback) {
 
@@ -61,11 +62,11 @@ var action = {
                         callback(callback_data_str);
                     }
                     else {
-                        callback("Something wasn't right :disappointed:");
+                        callback("Something wasn't right :disappointed: try again, please.");
                     }
                 }
                 else {
-                    callback("Where you at, bruh? Try `looking out the window` to get a read on the situation...");
+                    callback("Something wasn't right :disappointed: try again, please.");
                 }
             });
         });

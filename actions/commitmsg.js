@@ -4,9 +4,9 @@ var $ = require('jquerygo');
 var action = {
     name: "commitmsg",
 
-    trigger: /^commitmsg ".*"$/,
-
     description: "Display a message from http://whatthecommit.com/",
+
+    helpText: "Display a random message from http://whatthecommit.com/",
 
     execute: function(data, callback) {
         $.visit("http://whatthecommit.com/", function() {

@@ -34,7 +34,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "~2.4.1",
-    "slack-node": "0.0.9"
+    "slack-node": "0.0.9",
+    "jquerygo": "0.0.16"
   },
   "devDependencies": {
     "mocha": "~1.20.1"

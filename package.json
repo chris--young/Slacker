@@ -29,7 +29,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "lodash": "~2.4.1",
+    "lodash": "~4.17.15",
     "slack-node": "0.0.9"
   },
   "devDependencies": {
